@@ -14,7 +14,7 @@ const SearchBar = ({ onSearch }) => {
     type="text"
     value={searchTerm}
     onChange={(e) => setSearchTerm(e.target.value)}
-    className="border p-2 w-12/12 mr-2 rounded"
+    className="border p-2 w-12/12 mr-2 rounded mb-2"
     placeholder="Buscar producto..."
   />
   <button
