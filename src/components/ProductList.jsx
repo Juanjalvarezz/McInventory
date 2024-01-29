@@ -13,6 +13,8 @@ const ProductList = () => {
   const [editedCategory, setEditedCategory] = useState('');
   const [showSearchResult, setShowSearchResult] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [editedQuantity, setEditedQuantity] = useState('');
+
 
   useEffect(() => {
     const updateProducts = (newProducts) => {
@@ -44,6 +46,8 @@ const ProductList = () => {
     setEditedName(product.name);
     setEditedPrice(product.price.toString());
     setEditedCategory(product.category);
+    setEditedQuantity(product.quantity.toString());
+
   };
 
   const handleSaveEdit = () => {
@@ -52,6 +56,7 @@ const ProductList = () => {
       name: editedName,
       price: parseFloat(editedPrice),
       category: editedCategory,
+      quantity: parseInt(editedQuantity),
     };
 
     try {
@@ -110,14 +115,14 @@ const ProductList = () => {
   return (
     <div className="container mx-auto">
       <ToastContainer />
-      <div className='bg-red-700 p-5 rounded mb-2 flex'>
+      <div className='flex flex-col md:flex-row items-center bg-red-700 p-5 rounded mb-2 flex'>
       <SearchBar onSearch={handleSearch} />
-      <div>
+      <div className='flex flex-col md:flex-row items-center'>
         <label className="ml-12 mr-2 text-white font-bold">Filtrar por Categoría:</label>
         <select
-          value={selectedCategory}
+          value={selectedCategory} 
           onChange={(e) => handleCategoryChange(e.target.value)}
-          className="border p-2 rounded"
+          className="border p-2 rounded mb-2"
         >
           <option value="">Todas las categorías</option>
           <option value="salado">Salado</option>
@@ -138,13 +143,17 @@ const ProductList = () => {
         </div>
       )}
 
+        
+
       {(showSearchResult ? filteredProducts : products).map((product, index) => (
         <div key={product.id} className="relative mb-6">
           <div className="bg-green-700 p-4 mb-4 rounded shadow">
             <h2 className="bg-yellow-500 w-fit p-2 rounded text-2xl text-white font-bold mb-2">{product.name}</h2>
             <p className="text-white text-lg mb-2 ">Precio: ${product.price.toFixed(2)}</p>
             <p className="text-white text-lg mb-2">Categoría: {product.category}</p>
+            <p className="text-white text-lg mb-2">Cantidad: {product.quantity}</p> {/* Mostrar cantidad */}
             <div className="flex">
+
               <button
                 className="bg-red-700 text-white font-bold px-2  text-lg  py-1 rounded mr-2 transition duration-300 ease-in-out hover:bg-yellow-500"
                 onClick={() => handleRemoveProduct(product.id)}
@@ -192,6 +201,15 @@ const ProductList = () => {
         <option value="bebida">Bebida</option>
       </select>
     </div>
+    <div className="mb-2">
+      <label className="text-white text-lg mb-2 mr-3 font-bold">Cantidad:</label>
+      <input
+        type="text"
+        value={editedQuantity}
+        onChange={(e) => setEditedQuantity(e.target.value)}
+        className="border p-2 rounded focus:outline-none focus:border-blue-500"
+      />
+    </div>
     <button
       className="bg-red-700 text-white font-bold px-4 py-2 rounded mr-2"
       onClick={handleSaveEdit}
@@ -200,6 +218,7 @@ const ProductList = () => {
     </button>
   </div>
           )}
+
         </div>
       ))}
     </div>
